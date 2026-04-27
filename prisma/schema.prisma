@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Installation {
+  id                   String   @id @default(cuid())
+  githubInstallationId BigInt   @unique
+  accountLogin         String
+  accountType          String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  repos Repo[]
+
+  @@map("installation")
+}
+
+model Repo {
+  id             String  @id @default(cuid())
+  installationId String
+  githubRepoId   BigInt  @unique
+  fullName       String  @unique
+  defaultBranch  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  installation Installation  @relation(fields: [installationId], references: [id], onDelete: Cascade)
+  runs         WorkflowRun[]
+  prComments   PrComment[]
+
+  @@index([installationId])
+  @@map("repo")
+}
+
+model WorkflowRun {
+  id              String   @id @default(cuid())
+  repoId          String
+  githubId        BigInt   @unique
+  workflowId      BigInt
+  workflowName    String
+  headSha         String
+  headBranch      String?
+  prNumber        Int?
+  event           String
+  status          String
+  conclusion      String?
+  attempt         Int      @default(1)
+  startedAt       DateTime
+  completedAt     DateTime?
+  totalDurationS  Int?
+  runnerLabel     String?
+  rawPayload      Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  repo Repo          @relation(fields: [repoId], references: [id], onDelete: Cascade)
+  jobs WorkflowJob[]
+
+  @@index([repoId, headBranch, completedAt])
+  @@index([repoId, prNumber])
+  @@index([repoId, workflowId, headBranch, conclusion, completedAt])
+  @@map("workflow_run")
+}
+
+model WorkflowJob {
+  id          String    @id @default(cuid())
+  runId       String
+  githubId    BigInt    @unique
+  name        String
+  matrixKey   String?
+  startedAt   DateTime
+  completedAt DateTime?
+  durationS   Int?
+  conclusion  String?
+  runnerLabel String?
+  attempt     Int       @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  run   WorkflowRun    @relation(fields: [runId], references: [id], onDelete: Cascade)
+  steps WorkflowStep[]
+
+  @@index([runId])
+  @@index([name, matrixKey])
+  @@map("workflow_job")
+}
+
+model WorkflowStep {
+  id         String   @id @default(cuid())
+  jobId      String
+  name       String
+  number     Int
+  durationS  Int?
+  conclusion String?
+
+  job WorkflowJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, number])
+  @@map("workflow_step")
+}
+
+model PrComment {
+  id              String   @id @default(cuid())
+  repoId          String
+  prNumber        Int
+  githubCommentId BigInt?
+  lastHeadSha     String?
+  postedAt        DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  repo Repo @relation(fields: [repoId], references: [id], onDelete: Cascade)
+
+  @@unique([repoId, prNumber])
+  @@map("pr_comment")
+}
