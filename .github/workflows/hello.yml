@@ -7,5 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "hello from CIForge CI"
-      - run: sleep 45
+      - run: sleep 46
       - run: echo "done"
