@@ -1,12 +1,10 @@
- name: hello                                                                                                                                  
-  on:                                                                                                                                          
-    push:
-    pull_request:                                                                                                                              
-                                                                  
-  jobs:
+name: hello                                                                                                                                  
+  on: [push, pull_request]                                        
+                                                                                                                                               
+  jobs:                                                           
     greet:
       runs-on: ubuntu-latest
       steps:
         - run: echo "hello from CIForge CI"
         - run: sleep 5                                                                                                                         
-        - run: echo "done"  
+        - run: echo "done"
