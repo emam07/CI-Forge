@@ -3,6 +3,7 @@ import { env } from "@/lib/env";
 import { JobNames } from "@/lib/queue";
 import { ingestRunTask } from "./jobs/ingest-run";
 import { backfillTask } from "./jobs/backfill";
+import { evaluatePrTask } from "./jobs/evaluate-pr";
 
 async function main() {
   const runner = await run({
@@ -11,7 +12,8 @@ async function main() {
     pollInterval: 2000,
     taskList: {
       [JobNames.IngestRun]: ingestRunTask,
-      [JobNames.Backfill]: backfillTask
+      [JobNames.Backfill]: backfillTask,
+      [JobNames.EvaluatePr]: evaluatePrTask
     }
   });
 

@@ -55,6 +55,7 @@ model WorkflowRun {
   completedAt     DateTime?
   totalDurationS  Int?
   runnerLabel     String?
+  workflowHash    String?
   rawPayload      Json?
 
   createdAt DateTime @default(now())
@@ -66,6 +67,7 @@ model WorkflowRun {
   @@index([repoId, headBranch, completedAt])
   @@index([repoId, prNumber])
   @@index([repoId, workflowId, headBranch, conclusion, completedAt])
+  @@index([repoId, workflowId, workflowHash, headBranch, conclusion, completedAt])
   @@map("workflow_run")
 }
 

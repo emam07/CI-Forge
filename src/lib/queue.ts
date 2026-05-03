@@ -12,7 +12,8 @@ export function getQueue(): Promise<WorkerUtils> {
 
 export const JobNames = {
   IngestRun: "ingest-run",
-  Backfill: "backfill-repo"
+  Backfill: "backfill-repo",
+  EvaluatePr: "evaluate-pr"
 } as const;
 
 export type IngestRunPayload = {
@@ -25,4 +26,11 @@ export type BackfillPayload = {
   installationId: number;
   repoFullName: string;
   sinceDays: number;
+};
+
+export type EvaluatePrPayload = {
+  installationId: number;
+  repoFullName: string;
+  prNumber: number;
+  headSha: string;
 };

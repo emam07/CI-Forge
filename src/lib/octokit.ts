@@ -1,9 +1,12 @@
 import { App } from "@octokit/app";
-import type { Octokit } from "@octokit/core";
-import type { PaginateInterface } from "@octokit/plugin-paginate-rest";
+import { Octokit } from "@octokit/core";
+import { paginateRest, type PaginateInterface } from "@octokit/plugin-paginate-rest";
 import { env } from "./env";
 
+const PaginatedOctokit = Octokit.plugin(paginateRest);
+
 export const githubApp = new App({
+  Octokit: PaginatedOctokit,
   appId: env.GITHUB_APP_ID,
   privateKey: env.GITHUB_APP_PRIVATE_KEY,
   webhooks: {
@@ -11,8 +14,7 @@ export const githubApp = new App({
   }
 });
 
-// @octokit/app loads the paginate-rest plugin at runtime; the surfaced type doesn't reflect it.
-export type InstallationOctokit = Octokit & { paginate: PaginateInterface };
+export type InstallationOctokit = InstanceType<typeof Octokit> & { paginate: PaginateInterface };
 
 export async function octokitForInstallation(
   installationId: number | bigint

@@ -1,0 +1,42 @@
+CIForge Source-Available License v1.0
+
+Copyright (c) 2026 CIForge contributors.
+
+This is a source-available license, not an open-source license. The full,
+canonical text of this project's license will be published as a Business
+Source License (BSL 1.1) variant. Until that file is committed verbatim,
+the following summary governs use:
+
+1. GRANT. You may read, copy, modify, and redistribute this source code,
+   in source or binary form, subject to the conditions below.
+
+2. PERMITTED USE. You may use the software for any internal purpose,
+   including running it against your own repositories, in production, at
+   no charge.
+
+3. RESTRICTED USE. You may NOT, without a separate commercial agreement
+   from the copyright holder:
+
+   (a) Offer the software, or a derivative of it, as a hosted or managed
+       service to third parties;
+
+   (b) Embed the software, or a derivative of it, in a product whose
+       primary purpose is to provide CI compute, CI runners, or CI
+       infrastructure to third parties (e.g. a managed runner offering,
+       a hosted CI build service, or a CI-as-a-Service product); or
+
+   (c) Use the software to build a product that competes with CIForge's
+       hosted offering as a CI regression / observability service.
+
+4. CHANGE DATE. On 2030-05-03, this license converts automatically to
+   the Apache License 2.0, and the restrictions in section 3 lapse.
+
+5. NO WARRANTY. The software is provided "as is", without warranty of
+   any kind, express or implied. The authors are not liable for any
+   claim, damages, or other liability arising from its use.
+
+6. TRADEMARKS. This license does not grant permission to use the name,
+   logo, or trademarks of CIForge or its contributors.
+
+For commercial licensing for uses restricted under section 3, contact
+the maintainers.
